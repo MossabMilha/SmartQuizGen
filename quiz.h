@@ -1,20 +1,24 @@
 #ifndef QUIZ_H
 #define QUIZ_H
 
+#include "question.h"
 #include <vector>
-#include "Question.h"
+#include <QString>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 
 class Quiz {
 public:
-    std::vector<Question> questions;  // List of questions in the quiz.
+    Quiz();
 
-    // Method to add a question to the quiz. Limits the number of questions to 10.
     void addQuestion(const Question& question);
+    std::vector<Question> getQuestions() const;
+    bool saveToJson(const QString& filePath) const;
+    bool loadFromJson(const QString& filePath);
 
-    // Method to convert the entire quiz into a JSON object.
-    QJsonObject toJson() const;
+private:
+    std::vector<Question> questions;
 };
 
 #endif // QUIZ_H

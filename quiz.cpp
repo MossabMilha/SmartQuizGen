@@ -1,21 +1,85 @@
 #include "quiz.h"
+#include <QFile>
+#include <QJsonDocument>
+#include <QTextStream>
+#include <QDebug>
+
+Quiz::Quiz() {}
 
 void Quiz::addQuestion(const Question& question) {
-    if (questions.size() < 10) {  // Ensure no more than 10 questions.
-        questions.push_back(question);  // Add the question to the list.
-    }
+    questions.push_back(question);
 }
 
-QJsonObject Quiz::toJson() const {
-    QJsonObject json;
+std::vector<Question> Quiz::getQuestions() const {
+    return questions;
+}
 
-    // Create a QJsonArray to store all the questions.
-    QJsonArray questionsArray;
-    for (const auto& q : questions) {
-        questionsArray.append(q.toJson());  // Convert each question to JSON and append.
+bool Quiz::saveToJson(const QString& filePath) const {
+    QJsonArray quizArray;
+
+    for (const auto& question : questions) {
+        QJsonObject questionObj;
+        questionObj["question"] = question.getText();
+
+        QJsonArray optionsArray;
+        for (const auto& option : question.getOptions()) {
+            optionsArray.append(option);
+        }
+        questionObj["options"] = optionsArray;
+        questionObj["correct_answer"] = question.getCorrectAnswer();
+
+        quizArray.append(questionObj);
     }
 
-    json["quiz"] = questionsArray;  // Add the array of questions to the quiz JSON object.
+    QJsonObject root;
+    root["quiz"] = quizArray;
 
-    return json;  // Return the JSON representation of the quiz.
+    QJsonDocument doc(root);
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qWarning() << "Failed to open file for writing:" << filePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out << doc.toJson(QJsonDocument::Indented);
+    file.close();
+
+    return true;
+}
+
+bool Quiz::loadFromJson(const QString& filePath) {
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open file for reading:" << filePath;
+        return false;
+    }
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+    if (doc.isNull()) {
+        qWarning() << "Failed to parse JSON.";
+        return false;
+    }
+
+    questions.clear();
+    QJsonObject root = doc.object();
+    QJsonArray quizArray = root["quiz"].toArray();
+
+    for (const QJsonValue& value : quizArray) {
+        QJsonObject questionObj = value.toObject();
+        QString questionText = questionObj["question"].toString();
+        QString correctAnswer = questionObj["correct_answer"].toString();
+
+        std::vector<QString> options;
+        for (const QJsonValue& optionValue : questionObj["options"].toArray()) {
+            options.push_back(optionValue.toString());
+        }
+
+        questions.emplace_back(questionText, options, correctAnswer);
+    }
+
+    return true;
 }

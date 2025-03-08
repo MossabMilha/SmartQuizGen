@@ -2,21 +2,20 @@
 #define QUESTION_H
 
 #include <QString>
-#include <QJsonObject>
-#include <QJsonArray>
 #include <vector>
 
 class Question {
 public:
-    QString question;
+    Question(const QString& text, const std::vector<QString>& options, const QString& correctAnswer);
+
+    QString getText() const;
+    std::vector<QString> getOptions() const;
+    QString getCorrectAnswer() const;
+
+private:
+    QString text;
     std::vector<QString> options;
-    QString correct_answer;
-
-
-    Question(const QString& q, const std::vector<QString>& opts, const QString& correct);
-
-
-    QJsonObject toJson() const;
+    QString correctAnswer;
 };
 
-#endif
+#endif // QUESTION_H
