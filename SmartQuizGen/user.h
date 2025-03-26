@@ -29,6 +29,10 @@ public:
     QString getPassword() const;
     QString getSaveState() const;
 
+    static User getUserByUsername(QString username);
+    static User getUserByEmail(QString email);
+    static User getUserById(int id);
+
     // Setters
     void setFirstName(const QString &fName);
     void setLastName(const QString &lName);
@@ -40,7 +44,7 @@ public:
     void SaveStateTrue();
     void SaveStateFalse();
 
-    // Static methods for checking database
+
     static bool isUsernameUsed(const QString& username);
     static bool isEmailUsed(const QString& email);
 

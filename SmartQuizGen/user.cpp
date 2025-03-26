@@ -3,22 +3,86 @@
 // Constructor
 User::User(const QString &fName, const QString &lName, const QString &uName, const QString &mail, const QString &pass, bool CanBeSave)
     : firstName(fName), lastName(lName), username(uName), email(mail), CanBeSave(CanBeSave) {
-    setPassword(pass);  // Encrypt the password during construction
+    setPassword(pass);
 }
 // Getters
 QString User::getFirstName() const { return firstName; }
 QString User::getLastName() const { return lastName; }
 QString User::getUsername() const { return username; }
 QString User::getEmail() const { return email; }
-QString User::getPassword() const { return Encryption::decrypt(password);}
+QString User::getPassword() const {
+    QString decryptedPassword = Encryption::decrypt(password);
+    return decryptedPassword;
+}
 QString User::getSaveState() const { return CanBeSave ? "True" : "False"; }
+
+
+
+User User::getUserById(int id) {
+    QSqlQuery query;
+    query.prepare("SELECT * FROM users WHERE Id = :id");
+    query.bindValue(":id", id);
+
+    if (query.exec() && query.next()) {
+        QString firstName = query.value("FirstName").toString();
+        QString lastName = query.value("LastName").toString();
+        QString username = query.value("Username").toString();
+        QString email = query.value("email").toString();
+        QString password = query.value("Password").toString();
+        bool canBeSaved = true;
+
+        return User(firstName, lastName, username, email, password, canBeSaved);
+    } else {
+
+        return User("", "", "", "", "", false);
+    }
+}
+User User::getUserByUsername(QString username) {
+    QSqlQuery query;
+    query.prepare("SELECT * FROM users WHERE Username = :username");
+    query.bindValue(":username", username);
+
+    if (query.exec() && query.next()) {
+        QString firstName = query.value("FirstName").toString();
+        QString lastName = query.value("LastName").toString();
+        QString email = query.value("email").toString();
+        QString password = query.value("Password").toString();
+        bool canBeSaved = true;
+
+        return User(firstName, lastName, username, email, password, canBeSaved);
+    } else {
+        return User("", "", "", "", "", false);
+    }
+}
+
+User User::getUserByEmail(QString email) {
+    QSqlQuery query;
+    query.prepare("SELECT * FROM users WHERE email = :email");
+    query.bindValue(":email", email);
+
+    if (query.exec() && query.next()) {
+        QString firstName = query.value("FirstName").toString();
+        QString lastName = query.value("LastName").toString();
+        QString username = query.value("Username").toString();
+        QString password = query.value("Password").toString();
+        bool canBeSaved = true;
+
+        return User(firstName, lastName, username, email, password, canBeSaved);
+    } else {
+        return User("", "", "", "", "", false);
+    }
+}
+
 
 // Setters
 void User::setFirstName(const QString &fName) { firstName = fName; }
 void User::setLastName(const QString &lName) { lastName = lName; }
 void User::setUsername(const QString &uName) { username = uName; }
 void User::setEmail(const QString &mail) { email = mail; }
-void User::setPassword(const QString &pass) { password = Encryption::encrypt(pass); }
+void User::setPassword(const QString &pass) {
+    password = Encryption::encrypt(pass);
+    qDebug() << "Encrypted Password: " << password;
+}
 
 
 // Save state setters

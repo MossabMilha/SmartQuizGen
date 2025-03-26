@@ -99,8 +99,10 @@ SignUp::SignUp(QWidget *parent)
             QMessageBox::information(this, "Success", "🎉 Sign-up Successful!");
             mainWindow->show();
             this->hide();
+        }else{
+            QMessageBox::warning(this, "Input Error", "Ther's Problem In SignUp");
         }
-        QMessageBox::warning(this, "Input Error", "Ther's Problem In SignUp");
+
 
 
     });
