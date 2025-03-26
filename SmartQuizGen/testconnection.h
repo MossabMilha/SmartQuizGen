@@ -1,4 +1,4 @@
-#ifndef TESTCONNECTION_H
+ifndef TESTCONNECTION_H
 #define TESTCONNECTION_H
 
 #include <QDialog>

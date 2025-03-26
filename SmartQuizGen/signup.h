@@ -3,6 +3,17 @@
 
 #include <QDialog>
 
+#include "ui_signup.h"
+#include "signin.h"
+#include "mainwindow.h"
+
+#include "user.h"
+#include "checkers.h"
+#include <string>
+
+#include <QRegularExpression>
+#include <QMessageBox>
+
 namespace Ui {
 class SignUp;
 }
@@ -16,9 +27,7 @@ public:
     ~SignUp();
 
 private slots:
-    bool validateInputs(QString firstName, QString lastName, QString username,
-                        QString email, QString password, QString confirmPassword,
-                        QString &ErrorMessage);
+    bool validateInputs(User newuser, QString confirmPassword, QMap<QString, QString>& ErrorMessages);
 
 private:
     Ui::SignUp *ui;

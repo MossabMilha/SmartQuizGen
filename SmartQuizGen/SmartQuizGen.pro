@@ -8,6 +8,7 @@ CONFIG += c++17
 SOURCES += \
     checkers.cpp \
     databasemanager.cpp \
+    encryption.cpp \
     homepage.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -16,12 +17,12 @@ SOURCES += \
     quizexamen.cpp \
     signin.cpp \
     signup.cpp \
-    testconnection.cpp \
     user.cpp
 
 HEADERS += \
     checkers.h \
     databasemanager.h \
+    encryption.h \
     homepage.h \
     mainwindow.h \
     question.h \
@@ -29,7 +30,6 @@ HEADERS += \
     quizexamen.h \
     signin.h \
     signup.h \
-    testconnection.h \
     user.h
 
 FORMS += \
@@ -37,9 +37,8 @@ FORMS += \
     mainwindow.ui \
     quizexamen.ui \
     signin.ui \
-    signup.ui \
-    testconnection.ui
+    signup.ui
 
-# Add Python include path and library
+
 INCLUDEPATH += C:/Users/PC/AppData/Local/Programs/Python/Python312/include
 LIBS += -LC:/Users/PC/AppData/Local/Programs/Python/Python312/libs -lpython312

@@ -1,16 +1,24 @@
 #include "checkers.h"
 #include <regex>
 
-std::string NameIsValid(const std::string& name) {
-    for (char ch : name) {
-        if (!std::isalpha(ch) && ch != ' ' && ch != '-') {
-            return "It Should Conatain Only letters,space Or -";
-        }
+
+bool Checkers::NameIsValid(const std::string& name){
+    // Convert std::string to QString
+    QString qName = QString::fromStdString(name);
+
+    // Create QRegularExpression instance
+    QRegularExpression nameRegex("^[A-Za-z'-]+$");
+
+    // Perform regex match
+    if (nameRegex.match(qName).hasMatch()) {
+        return true;
     }
-    return "Valid";
+
+    return false;
 }
 
-std::string EmailIsValid(const std::string& email) {
+
+bool Checkers::EmailIsValid(const std::string& email) {
 
     std::regex emailRegex("^[A-Za-z0-9_.+-]+@[A-Za-z]+\\.[A-Za-z-.]+$");
 
@@ -22,27 +30,65 @@ std::string EmailIsValid(const std::string& email) {
 
 
         if (atPos == 0 || atPos == email.length() - 1 || dotPos == email.length() - 1) {
-            return "Invalid Email Format";
+            return false;
         }
 
 
         std::string domain = email.substr(atPos + 1);
         for (char ch : domain) {
             if (ch == ' ' || (!isalnum(ch) && ch != '-' && ch != '.')) {
-                return "Invalid Email Format";
+                return false;
             }
         }
 
-        return "Valid";
+        return true;
     }
 
-    return "Invalid Email Format";
+    return false;
 }
-std::string UserNameIsValid(const std::string username){
 
-}
-std::string PasswordIsValid(const std::string password){
+bool Checkers::PasswordIsValid(const User& newUser,const std::string& Password){
 
+    QRegularExpression upperCaseRegex("[A-Z]");
+    QRegularExpression lowerCaseRegex("[a-z]");
+    QRegularExpression specialCharRegex("[^A-Za-z0-9]");
+    QRegularExpression numberRegex("[0-9]");
+
+
+    QString password = QString::fromStdString(Password);
+
+
+    if (password.length() <= 8) {
+        return false;
+    }
+
+    // Check for at least one uppercase letter
+    if (!upperCaseRegex.match(password).hasMatch()) {
+        return false;
+    }
+
+    // Check for at least one lowercase letter
+    if (!lowerCaseRegex.match(password).hasMatch()) {
+        return false;
+    }
+
+    // Check for at least one special character
+    if (!specialCharRegex.match(password).hasMatch()) {
+        return false;
+    }
+
+    // Check for at least one number
+    if (!numberRegex.match(password).hasMatch()) {
+        return false;
+    }
+
+    // Check if password contains first name or last name
+    if (password.contains(newUser.getFirstName(), Qt::CaseInsensitive) ||
+        password.contains(newUser.getLastName(), Qt::CaseInsensitive)) {
+        return false;
+    }
+
+    return true;
 }
 
 

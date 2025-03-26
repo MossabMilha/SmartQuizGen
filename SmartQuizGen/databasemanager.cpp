@@ -2,9 +2,10 @@
 #include <QCoreApplication>
 #include <QDebug>
 
-QSqlDatabase DataBaseManager::db = QSqlDatabase::addDatabase("QSQLITE");
+QSqlDatabase DataBaseManager::db;
 
 bool DataBaseManager::openDatabase() {
+    db = QSqlDatabase::addDatabase("QSQLITE");
     QString currentDir = QCoreApplication::applicationDirPath();
     QString db_path = currentDir + "/../../../../DB/SmartQuizGen.db";
     db.setDatabaseName(db_path);
