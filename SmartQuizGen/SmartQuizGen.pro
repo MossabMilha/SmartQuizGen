@@ -7,6 +7,7 @@ CONFIG += c++17
 
 SOURCES += \
     checkers.cpp \
+    databasemanager.cpp \
     homepage.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 
 HEADERS += \
     checkers.h \
+    databasemanager.h \
     homepage.h \
     mainwindow.h \
     question.h \

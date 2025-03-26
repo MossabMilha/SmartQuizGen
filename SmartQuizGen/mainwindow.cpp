@@ -3,10 +3,12 @@
 #include "signup.h"
 #include "signin.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     connect(ui->SignUpButton, &QPushButton::clicked, this, [=]() {
         SignUp *signupWindow = new SignUp(this);

@@ -10,6 +10,7 @@ SignIn::SignIn(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::SignIn)
 {
+
     ui->setupUi(this);
     User* user = new User("Mossab","Milha","MMILHA","mossabmilha.m@gmail.com","mossab");
     connect(ui->LoginButton, &QPushButton::clicked, this, [=]() {
