@@ -6,6 +6,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 SOURCES += \
+    checkers.cpp \
     homepage.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
     user.cpp
 
 HEADERS += \
+    checkers.h \
     homepage.h \
     mainwindow.h \
     question.h \
