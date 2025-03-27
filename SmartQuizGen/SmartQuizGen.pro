@@ -10,6 +10,7 @@ SOURCES += \
     databasemanager.cpp \
     encryption.cpp \
     homepage.cpp \
+    homepagefunctions.cpp \
     main.cpp \
     mainwindow.cpp \
     pdf.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     databasemanager.h \
     encryption.h \
     homepage.h \
+    homepagefunctions.h \
     mainwindow.h \
     pdf.h \
     question.h \

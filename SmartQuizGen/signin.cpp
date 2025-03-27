@@ -8,8 +8,7 @@
 bool CheckSignIn(QString username, QString password, User &user) {
     if (User::isUsernameUsed(username)) {
         user = User::getUserByUsername(username);
-        qDebug()<<"yow :"<<user.getPassword();
-        if (user.getPassword() == password) {
+        if (user.getPassword() == Encryption::encrypt(password)) {
             return true;
         }
     }
@@ -35,8 +34,6 @@ SignIn::SignIn(QWidget *parent)
             return;
         }
     });
-
-
 }
 
 SignIn::~SignIn()

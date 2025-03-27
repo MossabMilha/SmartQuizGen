@@ -27,11 +27,13 @@ public:
     QString getUsername() const;
     QString getEmail() const;
     QString getPassword() const;
+
     QString getSaveState() const;
 
     static User getUserByUsername(QString username);
     static User getUserByEmail(QString email);
     static User getUserById(int id);
+    static int getId(QString username);
 
     // Setters
     void setFirstName(const QString &fName);

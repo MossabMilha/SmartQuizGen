@@ -14,6 +14,19 @@ QString User::getPassword() const {
     QString decryptedPassword = Encryption::decrypt(password);
     return decryptedPassword;
 }
+int User::getId(QString username) {
+    QSqlQuery query;
+    query.prepare("SELECT Id FROM users WHERE Username = :username");
+    query.bindValue(":username", username);
+    if (!query.exec()) {
+        qDebug() << "Error fetching ID:" << query.lastError().text();return -1;
+    }
+    if (query.next()) {
+        int userId = query.value(0).toInt();
+        return userId;
+    }
+    return -1;
+}
 QString User::getSaveState() const { return CanBeSave ? "True" : "False"; }
 
 

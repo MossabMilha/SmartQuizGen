@@ -1,59 +1,91 @@
 import sys
+import os
+import sqlite3
 import google.generativeai as genai
+import re
+import json
 
-
-# Configure API key
 genai.configure(api_key="AIzaSyCQQKLp1V2GEgnHEab1fKKL6K6O5lcBXZY")
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
-def generate(file_path):
-    # Upload the PDF file using the path passed from C++ code
-    uploaded_file = genai.upload_file(path=file_path)
+Db_path = os.path.join(script_dir, "..", "DB", "SmartQuizGen.db")
 
-    # Model and request setup
-    model = genai.GenerativeModel("gemini-1.5-pro")
+def GetPdf(id):
+    try:
+        conn = sqlite3.connect(Db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT filename, data, user_id FROM pdfs WHERE id = ?", (id,))
+        row = cursor.fetchone()
+        conn.close()
 
-    prompt = """
-    I will upload a PDF. Your task is to generate 5 multiple-choice quiz questions from it.
+        if row is None:
+            return  # No return if the PDF isn't found
 
-    Format the output as JSON with this structure:
+        filename, pdf_data, user_id = row
+        temp_path = f"/tmp/{filename}"
 
-    {
-      "quiz": [
+        with open(temp_path, "wb") as file:
+            file.write(pdf_data)
+
+        return {"user_id": user_id, "pdf_id": id, "path": temp_path}
+
+    except sqlite3.Error as e:
+        return  # No return on error
+
+def generate(file_path, user_id, pdf_id):
+    try:
+        uploaded_file = genai.upload_file(path=file_path)
+        model = genai.GenerativeModel("gemini-1.5-pro")
+
+        prompt = """
+        I will upload a PDF. Your task is to generate 5 multiple-choice quiz questions from it.
+        Format the output as JSON with this structure with no extra thing even a comma is not allow to be add:
         {
-          "question": "Sample question?",
-          "options": ["A", "B", "C", "D"],
-          "correct_answer": "B"
+          "quiz": [
+            {
+              "question": "Sample question?",
+              "options": ["A", "B", "C", "D"],
+              "correct_answer": "B"
+            }
+          ],
+          "error": null
         }
-      ],
-      "error": null
-    }
+        """
 
-    If you are unable to extract meaningful questions from the PDF or if an error occurs, return the following JSON object:
+        response = model.generate_content(
+            contents=[{"file_data": {"file_uri": uploaded_file.uri}}, {"text": prompt}],
+            generation_config={"temperature": 0.7, "max_output_tokens": 1024}
+        )
 
-    {
-      "quiz": [],
-      "error": "There is an issue in uploading the file."
-    }
+        match = re.search(r'(\{.*\})', response.text, re.DOTALL)
+        if match:
+            quiz_json = match.group(1)
+        else:
+            quiz_json = '{"quiz": [], "error": "Error in generating quiz."}'
 
-    Ensure:
-    - Each question has exactly 4 options.
-    - The correct answer is explicitly mentioned in the "correct_answer" field.
-    - The output is valid JSON so a C++ program can process it easily.
-    - Do not add extra text, only return the JSON object.
-    """
+        save_quiz_to_db(user_id, pdf_id, quiz_json)
 
-    # Generate content using the uploaded file and prompt
-    response = model.generate_content(
-        contents=[{"file_data": {"file_uri": uploaded_file.uri}}, {"text": prompt}],
-        generation_config={"temperature": 0.7, "max_output_tokens": 1024}
-    )
+    except Exception as e:
+        pass  # Error is ignored silently
 
-    # Print the response text
-    print(response.text)
+def save_quiz_to_db(user_id, pdf_id, quiz_data):
+    try:
+        conn = sqlite3.connect(Db_path)
+        cursor = conn.cursor()
 
-# Check if the file path is passed as an argument
-if len(sys.argv) > 1:
-    file_path = sys.argv[1]  # Get the file path from command-line arguments
-    generate(file_path)
-else:
-    print("No file path provided.")
+        cursor.execute("INSERT INTO quizzes (user_id, pdf_id, data) VALUES (?, ?, ?)", (user_id, pdf_id, quiz_data))
+
+        conn.commit()
+        conn.close()
+
+    except sqlite3.Error as e:
+        pass  # Error is ignored silently
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        pdf_id = int(sys.argv[1])
+        pdf_path = GetPdf(pdf_id)
+
+        if pdf_path:  # Only proceed if pdf_path was returned (not None)
+            generate(pdf_path["path"], pdf_path["user_id"], pdf_path["pdf_id"])
+    
