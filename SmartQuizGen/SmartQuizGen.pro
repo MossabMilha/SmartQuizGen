@@ -12,6 +12,7 @@ SOURCES += \
     homepage.cpp \
     main.cpp \
     mainwindow.cpp \
+    pdf.cpp \
     question.cpp \
     quiz.cpp \
     quizexamen.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     encryption.h \
     homepage.h \
     mainwindow.h \
+    pdf.h \
     question.h \
     quiz.h \
     quizexamen.h \
