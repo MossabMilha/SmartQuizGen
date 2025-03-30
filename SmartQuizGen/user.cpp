@@ -27,6 +27,9 @@ int User::getId(QString username) {
     }
     return -1;
 }
+int User::getId() const {
+    return getId(this->getUsername());
+}
 QString User::getSaveState() const { return CanBeSave ? "True" : "False"; }
 
 

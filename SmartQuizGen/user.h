@@ -27,6 +27,7 @@ public:
     QString getUsername() const;
     QString getEmail() const;
     QString getPassword() const;
+    int getId() const;
 
     QString getSaveState() const;
 

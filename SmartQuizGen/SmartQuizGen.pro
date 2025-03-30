@@ -17,6 +17,7 @@ SOURCES += \
     question.cpp \
     quiz.cpp \
     quizexamen.cpp \
+    showpdfs.cpp \
     signin.cpp \
     signup.cpp \
     user.cpp
@@ -32,6 +33,7 @@ HEADERS += \
     question.h \
     quiz.h \
     quizexamen.h \
+    showpdfs.h \
     signin.h \
     signup.h \
     user.h
@@ -40,6 +42,7 @@ FORMS += \
     homepage.ui \
     mainwindow.ui \
     quizexamen.ui \
+    showpdfs.ui \
     signin.ui \
     signup.ui
 

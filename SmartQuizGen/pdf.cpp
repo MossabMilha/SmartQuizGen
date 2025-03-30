@@ -4,6 +4,10 @@ pdf::pdf(int user_id, const std::string& filepath) : user_id(user_id) {
     filename = std::filesystem::path(filepath).filename().string();
     setData(filepath);
 }
+pdf::pdf(int id, int user_id, const std::string& filename, const std::string& uploaded_at)
+    : id(id), user_id(user_id), filename(filename), uploaded_at(uploaded_at) {
+    data = "Not Available";
+}
 
 
 int pdf::getUserId() const {
@@ -48,6 +52,11 @@ void pdf::setData(const std::string& path) {
 
     file.close();
     std::cout << "File data read successfully and stored as BLOB" << std::endl;
+}
+void pdf::setDataFromBinary(const std::vector<char>& binaryData) {
+    // Store the binary data directly
+    data.assign(binaryData.begin(), binaryData.end());
+    std::cout << "Binary data stored successfully as BLOB" << std::endl;
 }
 
 
@@ -99,3 +108,43 @@ bool pdf::savePdfToDb(int &pdfId) {
         return false;
     }
 }
+
+std::vector<pdf> pdf::getPdfsOfUser(int userId) {
+    QSqlDatabase db = QSqlDatabase::database();
+
+    if (!db.isOpen()) {
+        qWarning() << "Database is not open!";
+        return std::vector<pdf>();
+    }
+
+    QSqlQuery query(db);
+    query.prepare("SELECT id, filename, uploaded_at FROM pdfs WHERE user_id = :userId");
+    query.bindValue(":userId", userId);
+
+    std::vector<pdf> userPdfs;
+
+    if (!query.exec()) {
+        qDebug() << "Error fetching PDFs for user:" << query.lastError().text();
+        return userPdfs;
+    }
+
+    while (query.next()) {
+        int id = query.value("id").toInt();
+        std::string filename = query.value("filename").toString().toStdString();
+        std::string uploaded_at = query.value("uploaded_at").toString().toStdString();
+
+        // Use the constructor where data is always set to "Not Available"
+        pdf pdfEntry(id, userId, filename, uploaded_at);  // Use the updated constructor
+
+        // No need to manually set 'id' and 'uploaded_at' as it's already set by the constructor
+        userPdfs.push_back(pdfEntry);
+    }
+
+    if (userPdfs.empty()) {
+        qDebug() << "No PDFs found for user with ID:" << userId;
+    }
+
+    return userPdfs;
+}
+
+

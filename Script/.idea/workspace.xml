@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="188b2b9c-c0d9-45ce-8f83-d198f91d76b1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../SmartQuizGen/homepagefunctions.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../SmartQuizGen/homepagefunctions.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../DB/SmartQuizGen.db" beforeDir="false" afterPath="$PROJECT_DIR$/../DB/SmartQuizGen.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Script.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Script.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/SmartQuizGen.pro" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/SmartQuizGen.pro" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../SmartQuizGen/homepage.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/homepage.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/homepage.h" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/homepage.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/homepage.ui" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/homepage.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/pdf.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/pdf.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/pdf.h" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/pdf.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/signin.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/signin.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/user.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/user.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/user.h" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/user.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +96,8 @@
       <workItem from="1742667291829" duration="1867000" />
       <workItem from="1743088741067" duration="5044000" />
       <workItem from="1743096657815" duration="2164000" />
-      <workItem from="1743112355446" duration="572000" />
+      <workItem from="1743112355446" duration="1355000" />
+      <workItem from="1743114511474" duration="13000" />
     </task>
     <servers />
   </component>
