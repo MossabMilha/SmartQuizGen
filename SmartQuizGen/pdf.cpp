@@ -9,7 +9,9 @@ pdf::pdf(int id, int user_id, const std::string& filename, const std::string& up
     data = "Not Available";
 }
 
-
+int pdf::getId() const{
+    return id;
+}
 int pdf::getUserId() const {
     return user_id;
 }
@@ -59,7 +61,29 @@ void pdf::setDataFromBinary(const std::vector<char>& binaryData) {
     std::cout << "Binary data stored successfully as BLOB" << std::endl;
 }
 
+bool pdf::pdfHaveQuiz(int pdfId) {
+    QSqlDatabase db = QSqlDatabase::database();
 
+    if (!db.isOpen()) {
+        qWarning() << "Database is not open!";
+        return false;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("SELECT COUNT(*) FROM quizzes WHERE pdf_id = :pdfId");
+    query.bindValue(":pdfId", pdfId);
+
+    if (!query.exec()) {
+        qWarning() << "Query execution failed:" << query.lastError().text();
+        return false;
+    }
+
+    if (query.next()) {
+        return query.value(0).toInt() > 0;
+    }
+
+    return false;
+}
 bool pdf::savePdfToDb() {
     QSqlDatabase db = QSqlDatabase::database();
 
@@ -74,7 +98,7 @@ bool pdf::savePdfToDb() {
 
     query.bindValue(":user_id", user_id);
     query.bindValue(":filename", QString::fromStdString(filename));
-    query.bindValue(":data", QByteArray::fromRawData(data.data(), data.size()));  // Converting std::string to QByteArray
+    query.bindValue(":data", QByteArray::fromRawData(data.data(), data.size()));
 
     if (query.exec()) {
         id = query.lastInsertId().toInt();

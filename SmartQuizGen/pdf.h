@@ -28,10 +28,12 @@ public:
     pdf(int id,int user_id, const std::string& filename, const std::string& uploaded_at);
 
     // Getters
+    int getId() const;
     int getUserId() const;
     std::string getFilename() const;
     std::string getData() const;
     static std::vector<pdf> getPdfsOfUser(int userId );
+    static bool pdfHaveQuiz(int pdfId);
 
     // Setters
     void setUserId(int newUserId);

@@ -27,7 +27,7 @@ QString homePageFunctions::uploadpdf(int userId, QString filePath, int* pdfId) {
 QString homePageFunctions::Generatepdf(int userId, QString filePath) {
     int pdfId = -1;
     QString output = homePageFunctions::uploadpdf(userId, filePath, &pdfId);
-    qDebug() << "Hello ";
+
 
     if (output == "PDF successfully saved to the database.") {
         QProcess process;
@@ -56,7 +56,33 @@ QString homePageFunctions::Generatepdf(int userId, QString filePath) {
             }
         }
     } else {
-        return output;  // Returning the error message from uploadpdf
+        return output;
+    }
+}
+QString homePageFunctions::GenerateQuiz(int pdfId) {
+    QProcess process;
+    QString currentDir = QCoreApplication::applicationDirPath();
+    QString pythonExecutable = currentDir + "/../../../../Script/.venv/Scripts/python.exe";
+    QString scriptPath = currentDir + "/../../../../Script/main.py";
+    QStringList arguments;
+    arguments << scriptPath << QString::number(pdfId);
+    process.start(pythonExecutable, arguments);
+
+    if (!process.waitForFinished()) {
+        qDebug() << "Error:" << process.errorString();
+        return "Error: Python script execution failed.";
+    } else {
+        QString output = process.readAllStandardOutput();
+        QString error = process.readAllStandardError();
+
+        qDebug() << "Output:" << output;
+        qDebug() << "Error:" << error;
+
+        if (!error.isEmpty()) {
+            return "Python script executed with errors: " + error;
+        } else {
+            return "Quiz generation completed successfully.";
+        }
     }
 }
 

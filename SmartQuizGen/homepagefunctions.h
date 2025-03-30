@@ -12,6 +12,9 @@ public:
     homePageFunctions();
     static QString uploadpdf(int userId, QString filePath, int* pdfId = nullptr);
     static QString Generatepdf(int userId,QString filePath);
+    static QString GenerateQuiz(int pdfId);
+
+
 };
 
-#endif // HOMEPAGEFUNCTIONS_H
+#endif

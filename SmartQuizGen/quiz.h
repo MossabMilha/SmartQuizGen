@@ -11,7 +11,6 @@
 class Quiz {
 public:
     Quiz();
-
     void addQuestion(const Question& question);
     std::vector<Question> getQuestions() const;
     bool saveToJson(const QString& filePath) const;
