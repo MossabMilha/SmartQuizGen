@@ -3,6 +3,7 @@ extern "C" {
 }
 #include "homepage.h"
 #include "showpdfs.h"
+#include "choosequiz.h"
 
 
 QString jsonQuizData; // Variable to store JSON before saving
@@ -75,6 +76,13 @@ HomePage::HomePage(User* user, QWidget *parent) :
         User user = User::getUserById(userId);
         ShowPdfs* ShowPdfsPage = new ShowPdfs(&user);
         ShowPdfsPage->show();
+        this->hide();
+    });
+
+    connect(ui->PassQuizButton, &QPushButton::clicked, this, [this,userId]() {
+        User user = User::getUserById(userId);
+        ChooseQuiz* ChooseQuizPage = new ChooseQuiz(&user);
+        ChooseQuizPage->show();
         this->hide();
     });
 

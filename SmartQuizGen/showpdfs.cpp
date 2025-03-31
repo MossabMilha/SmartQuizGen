@@ -6,7 +6,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
-
+#include <QMessageBox>
+#include "homepagefunctions.h"
 ShowPdfs::ShowPdfs(User* user, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ShowPdfs)
@@ -19,10 +20,8 @@ ShowPdfs::ShowPdfs(User* user, QWidget *parent)
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-
     QScrollArea* scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
-
 
     QWidget* container = new QWidget(this);
     QVBoxLayout* layout = new QVBoxLayout(container);
@@ -35,31 +34,20 @@ ShowPdfs::ShowPdfs(User* user, QWidget *parent)
         QPushButton* quizButton = new QPushButton(pdf::pdfHaveQuiz(pdf.getId()) ? "New Quiz" : "Generate Quiz", pdfWidget);
         quizButton->setFixedWidth(200);
 
-
-        QHBoxLayout* buttonLayout = new QHBoxLayout();
-        buttonLayout->addWidget(quizButton);
-        buttonLayout->setAlignment(Qt::AlignCenter);
-
-        if (pdf::pdfHaveQuiz(pdf.getId())) {
-            QPushButton* passQuizButton = new QPushButton("Pass Quiz", pdfWidget);
-            passQuizButton->setFixedWidth(100);
-            quizButton->setFixedWidth(100);
-
-            buttonLayout->addWidget(passQuizButton);
-
-            connect(passQuizButton, &QPushButton::clicked, this, [this, pdf]() {
-                qDebug() << "Passing quiz for: " << pdf.getId();
-            });
-        }
-
         connect(quizButton, &QPushButton::clicked, this, [this, pdf]() {
-            qDebug() << "Generating quiz for: " << pdf.getId();
+            if(homePageFunctions::GenerateQuiz(pdf.getId()) == "Quiz generation completed successfully.") {
+                User user = User::getUserById(pdf.getUserId());
+                ShowPdfs* ShowPdfsPage = new ShowPdfs(&user);
+                QMessageBox::information(this, "Success", "Quiz generation completed successfully.");
+                ShowPdfsPage->show();
+                this->hide();
+            } else {
+                QMessageBox::critical(this, "Error", homePageFunctions::GenerateQuiz(pdf.getId()));
+            }
         });
 
-
         hLayout->addWidget(pdfLabel);
-        hLayout->addLayout(buttonLayout);
-        hLayout->setSpacing(10);
+        hLayout->addWidget(quizButton);  // Fixed the issue of missing button alignment
         hLayout->setAlignment(Qt::AlignLeft);
 
         pdfWidget->setLayout(hLayout);
@@ -73,6 +61,7 @@ ShowPdfs::ShowPdfs(User* user, QWidget *parent)
     mainLayout->addWidget(scrollArea);
     setLayout(mainLayout);
 }
+
 
 ShowPdfs::~ShowPdfs()
 {

@@ -99,9 +99,9 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="QuizHistoryButton">
+     <widget class="QPushButton" name="PassQuizButton">
       <property name="text">
-       <string>History Of Quiz</string>
+       <string>Pass A Quiz</string>
       </property>
      </widget>
     </item>

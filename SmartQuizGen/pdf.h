@@ -34,6 +34,7 @@ public:
     std::string getData() const;
     static std::vector<pdf> getPdfsOfUser(int userId );
     static bool pdfHaveQuiz(int pdfId);
+    static std::string getFilenameByPdfID(int pdfId);
 
     // Setters
     void setUserId(int newUserId);

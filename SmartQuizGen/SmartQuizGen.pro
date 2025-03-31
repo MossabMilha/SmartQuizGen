@@ -7,6 +7,7 @@ CONFIG += c++17
 
 SOURCES += \
     checkers.cpp \
+    choosequiz.cpp \
     databasemanager.cpp \
     encryption.cpp \
     homepage.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     checkers.h \
+    choosequiz.h \
     databasemanager.h \
     encryption.h \
     homepage.h \
@@ -39,6 +41,7 @@ HEADERS += \
     user.h
 
 FORMS += \
+    choosequiz.ui \
     homepage.ui \
     mainwindow.ui \
     quizexamen.ui \

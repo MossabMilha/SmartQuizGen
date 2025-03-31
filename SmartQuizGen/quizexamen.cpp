@@ -32,7 +32,7 @@
             else if (ui->Answer4->isChecked()) userAnswers[currentQuestionIndex] = 3;
 
             currentQuestionIndex++;
-            const Question& currentQuestion = questions[currentQuestionIndex];    // Call the function to display questions when the window is shown
+            const Question& currentQuestion = questions[currentQuestionIndex];
             ui->Question->setText(currentQuestion.getText());
             ui->Answer1->setText(currentQuestion.getOptions()[0]);
             ui->Answer2->setText(currentQuestion.getOptions()[1]);

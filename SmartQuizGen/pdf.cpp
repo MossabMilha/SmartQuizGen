@@ -21,6 +21,35 @@ std::string pdf::getFilename() const {
     return filename;
 }
 
+std::string pdf::getFilenameByPdfID(int pdfId) {
+    // Initialize the SQL database connection
+    QSqlDatabase db = QSqlDatabase::database();
+
+    if (!db.isOpen()) {
+        qWarning() << "Database is not open!";
+        return "";
+    }
+
+    // Prepare the SQL query to retrieve the filename by pdfId
+    QSqlQuery query;
+    query.prepare("SELECT filename FROM pdfs WHERE id = :pdfId");
+    query.bindValue(":pdfId", pdfId);
+
+    if (!query.exec()) {
+        qWarning() << "Failed to execute query:" << query.lastError().text();
+        return "";
+    }
+
+    // Check if any record was found
+    if (query.next()) {
+        // Return the filename as a standard string
+        QString filename = query.value(0).toString();
+        return filename.toStdString();
+    } else {
+        // No result found for the given pdfId
+        return "";
+    }
+}
 
 std::string pdf::getData() const {
     return data;
