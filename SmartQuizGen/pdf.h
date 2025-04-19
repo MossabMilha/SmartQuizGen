@@ -32,6 +32,7 @@ public:
     int getUserId() const;
     std::string getFilename() const;
     std::string getData() const;
+    std::string getuploaded_at() const;
     static std::vector<pdf> getPdfsOfUser(int userId );
     static bool pdfHaveQuiz(int pdfId);
     static std::string getFilenameByPdfID(int pdfId);

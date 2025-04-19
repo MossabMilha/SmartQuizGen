@@ -48,7 +48,10 @@ FORMS += \
     showpdfs.ui \
     signin.ui \
     signup.ui
-
+RESOURCES += resources.qrc
 
 INCLUDEPATH += C:/Users/PC/AppData/Local/Programs/Python/Python312/include
 LIBS += -LC:/Users/PC/AppData/Local/Programs/Python/Python312/libs -lpython312
+
+RESOURCES += \
+    resources.qrc

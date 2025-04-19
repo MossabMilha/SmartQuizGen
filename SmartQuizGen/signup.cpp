@@ -1,4 +1,5 @@
 #include "signup.h"
+#include "ui_signup.h"
 
 bool SignUp::validateInputs(User newuser, QString confirmPassword, QMap<QString, QString>& ErrorMessages){
     bool isPass = true;
@@ -80,6 +81,8 @@ SignUp::SignUp(QWidget *parent)
         QString email = ui->EmailEntry->text().trimmed();
         QString password = ui->PasswordEntry->text();
         QString confirmPassword = ui->ConfirmPasswordEntry->text();
+        bool agree = ui->Agreements->isChecked();
+
 
         User newUser(firstName, lastName, username, email, password);
         QMap<QString, QString> ErrorMessages;
@@ -92,7 +95,12 @@ SignUp::SignUp(QWidget *parent)
             }
             QMessageBox::warning(this, "Input Error", allErrors);
             return;
+        }else if(!agree){
+            QMessageBox::warning(this, "Input Error", "You Should Agree To Our Terms");
+            return;
         }
+
+
         newUser.SaveStateTrue();
         if(newUser.saveUserToDb()){
             MainWindow *mainWindow = new MainWindow(this);
@@ -102,10 +110,35 @@ SignUp::SignUp(QWidget *parent)
         }else{
             QMessageBox::warning(this, "Input Error", "Ther's Problem In SignUp");
         }
+    });
 
+    connect(ui->BackHomePage, &QPushButton::clicked, this, [=]() {
 
+        MainWindow* MainWindowPage = new MainWindow();
+        MainWindowPage->show();
+        this->hide();
 
     });
+
+    bool isVisible = true;
+    connect(ui->SeeHidePassword, &QPushButton::clicked, this, [=]() mutable {
+        isVisible = !isVisible;
+        ui->PasswordEntry->setEchoMode(isVisible ? QLineEdit::Normal : QLineEdit::Password);
+        QIcon icon(isVisible ? ":/images/images/visible.png" : ":/images/images/hide.png");
+        ui->SeeHidePassword->setIcon(icon);
+    });
+
+    bool isConfirmVisible = true;
+    connect(ui->SeeHideConfirmPassword, &QPushButton::clicked, this, [=]() mutable {
+        isConfirmVisible = !isConfirmVisible;
+        ui->ConfirmPasswordEntry->setEchoMode(isConfirmVisible ? QLineEdit::Normal : QLineEdit::Password);
+        QIcon icon(isConfirmVisible ? ":/images/images/visible.png" : ":/images/images/hide.png");
+        ui->SeeHideConfirmPassword->setIcon(icon);
+    });
+
+
+
+
 
 }
 

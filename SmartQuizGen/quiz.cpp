@@ -21,7 +21,7 @@ std::vector<Question> Quiz::getQuestions() const {
 
 // Load quiz from JSON data (this will be used for both file and database loading)
 bool Quiz::loadFromJson(const QJsonObject& jsonObject) {
-    // Clear previous questions
+
     questions.clear();
 
     // Parse metadata from JSON
@@ -38,7 +38,7 @@ bool Quiz::loadFromJson(const QJsonObject& jsonObject) {
         createdAt = jsonObject["created_at"].toString();
     }
 
-    // Parse questions array from JSON
+
     if (jsonObject.contains("quiz")) {
         QJsonArray quizArray = jsonObject["quiz"].toArray();
         for (const QJsonValue& value : quizArray) {
@@ -62,7 +62,7 @@ bool Quiz::loadFromJson(const QJsonObject& jsonObject) {
 }
 
 
-// Fetch quizzes by user ID from the database
+
 std::vector<Quiz> Quiz::getQuizsByUserId(int userId) {
     std::vector<Quiz> quizzes;
     QSqlDatabase db = QSqlDatabase::database();
@@ -92,14 +92,14 @@ std::vector<Quiz> Quiz::getQuizsByUserId(int userId) {
         QJsonDocument doc = QJsonDocument::fromJson(jsonData);
         if (doc.isNull()) {
             qWarning() << "Failed to parse JSON for quiz ID:" << id;
-            continue; // Skip this quiz if parsing fails
+            continue;
         }
         QJsonObject jsonObject = doc.object();
 
-        // Create the Quiz object
+
         Quiz quiz(id, userId, pdfId, createdAt);
 
-        // Load questions from JSON
+
         if (quiz.loadFromJson(jsonObject)) {
             quizzes.push_back(quiz);
         } else {

@@ -15,6 +15,11 @@ class QuizExamen : public QDialog
 
 public:
     explicit QuizExamen(User* user ,Quiz *quiz, QWidget *parent = nullptr);
+
+    void saveCurrentAnswer();
+    void displayQuestion(const Question& question);
+    void updateNavigationButtons(int totalQuestions);
+
     ~QuizExamen();
 
 
@@ -28,4 +33,4 @@ private:
 
 };
 
-#endif // QUIZEXAMEN_H
+#endif

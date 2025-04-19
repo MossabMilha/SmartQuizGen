@@ -1,53 +1,66 @@
 #include "showpdfs.h"
 #include "ui_showpdfs.h"
-#include "pdf.h"
-#include <QDebug>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QScrollArea>
-#include <QMessageBox>
-#include "homepagefunctions.h"
+
+
 ShowPdfs::ShowPdfs(User* user, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ShowPdfs)
+    , currentUser(user)
 {
     ui->setupUi(this);
 
-    qDebug() << "User ID: " << user->getId();
-
-    std::vector<pdf> userPdfs = pdf::getPdfsOfUser(user->getId());
-
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    QScrollArea* scrollArea = new QScrollArea(this);
+    scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
 
-    QWidget* container = new QWidget(this);
-    QVBoxLayout* layout = new QVBoxLayout(container);
+    mainLayout->addWidget(scrollArea);
+    setLayout(mainLayout);
+
+    loadPdfs(currentUser);
+}
+void ShowPdfs::loadPdfs(User* user)
+{
+    int userId = user->getId();
+    std::vector<pdf> userPdfs = pdf::getPdfsOfUser(userId);
+
+    if (container) {
+        delete container; // delete the previous container and its layout
+        container = nullptr;
+    }
+
+    container = new QWidget(this);
+    layout = new QVBoxLayout(container);
 
     for (const auto& pdf : userPdfs) {
         QWidget* pdfWidget = new QWidget(this);
         QHBoxLayout* hLayout = new QHBoxLayout(pdfWidget);
 
-        QLabel* pdfLabel = new QLabel(QString::fromStdString(pdf.getFilename()), pdfWidget);
-        QPushButton* quizButton = new QPushButton(pdf::pdfHaveQuiz(pdf.getId()) ? "New Quiz" : "Generate Quiz", pdfWidget);
-        quizButton->setFixedWidth(200);
+        QLabel* pdfLabel = new QLabel(
+            QString::fromStdString(pdf.getFilename()) + "\nUploaded at: " +
+                QString::fromStdString(pdf.getuploaded_at()),
+            pdfWidget
+            );
 
-        connect(quizButton, &QPushButton::clicked, this, [this, pdf]() {
-            if(homePageFunctions::GenerateQuiz(pdf.getId()) == "Quiz generation completed successfully.") {
-                User user = User::getUserById(pdf.getUserId());
-                ShowPdfs* ShowPdfsPage = new ShowPdfs(&user);
-                QMessageBox::information(this, "Success", "Quiz generation completed successfully.");
-                ShowPdfsPage->show();
-                this->hide();
+        QPushButton* actionButton = new QPushButton(
+            pdf::pdfHaveQuiz(pdf.getId()) ? "Generate New Quiz" : "Generate Quiz",
+            pdfWidget
+            );
+        actionButton->setFixedWidth(150);
+
+        connect(actionButton, &QPushButton::clicked, this, [this, pdf,userId]() {
+            QString output = homePageFunctions::GenerateQuiz(pdf.getId());
+            if (output == "Quiz generation completed successfully.") {
+                QMessageBox::information(this, "Success", output);
+                User c_user = User::getUserById(userId);
+                this->loadPdfs(&c_user);
             } else {
-                QMessageBox::critical(this, "Error", homePageFunctions::GenerateQuiz(pdf.getId()));
+                QMessageBox::critical(this, "Error", output);
             }
         });
 
         hLayout->addWidget(pdfLabel);
-        hLayout->addWidget(quizButton);  // Fixed the issue of missing button alignment
+        hLayout->addWidget(actionButton);
         hLayout->setAlignment(Qt::AlignLeft);
 
         pdfWidget->setLayout(hLayout);
@@ -56,12 +69,7 @@ ShowPdfs::ShowPdfs(User* user, QWidget *parent)
 
     container->setLayout(layout);
     scrollArea->setWidget(container);
-
-    // Add scroll area to the main layout
-    mainLayout->addWidget(scrollArea);
-    setLayout(mainLayout);
 }
-
 
 ShowPdfs::~ShowPdfs()
 {

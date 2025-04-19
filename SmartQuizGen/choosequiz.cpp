@@ -6,10 +6,12 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
+#include "quizexamen.h"
 ChooseQuiz::ChooseQuiz(User* user, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ChooseQuiz)
 {
+    int userId = user->getId();
 
     std::vector<Quiz> userQuizs = Quiz::getQuizsByUserId(user->getId());
     qDebug() << "Number of quizzes: " << userQuizs.size();
@@ -18,6 +20,8 @@ ChooseQuiz::ChooseQuiz(User* user, QWidget *parent)
 
     QScrollArea* scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
+    scrollArea->setStyleSheet("QScrollArea { background-color: transparent; border: none; }");
+
 
     QWidget* container = new QWidget(this);
     QVBoxLayout* layout = new QVBoxLayout(container);
@@ -36,8 +40,11 @@ ChooseQuiz::ChooseQuiz(User* user, QWidget *parent)
         QPushButton* passQuizButton = new QPushButton("Pass the Quiz", quizWidget);
         passQuizButton->setFixedWidth(200);
 
-        connect(passQuizButton, &QPushButton::clicked, this, [this, quiz]() {
-            qDebug()<<quiz.getId();
+        connect(passQuizButton, &QPushButton::clicked, this, [this, quizCopy = quiz,userId]() {
+            User c_user = User::getUserById(userId);
+            QuizExamen* QuizExamenPage = new QuizExamen(&c_user,new Quiz(quizCopy));
+            QuizExamenPage->show();
+            this->hide();
         });
 
         // Add widgets to layout

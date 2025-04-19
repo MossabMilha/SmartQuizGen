@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="188b2b9c-c0d9-45ce-8f83-d198f91d76b1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/homepage.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/homepage.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SmartQuizGen/showpdfs.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../SmartQuizGen/showpdfs.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,6 +99,8 @@
       <workItem from="1743096657815" duration="2164000" />
       <workItem from="1743112355446" duration="1355000" />
       <workItem from="1743114511474" duration="13000" />
+      <workItem from="1743594019580" duration="2073000" />
+      <workItem from="1743809465129" duration="199000" />
     </task>
     <servers />
   </component>

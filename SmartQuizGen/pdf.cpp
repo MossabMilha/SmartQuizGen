@@ -20,7 +20,9 @@ int pdf::getUserId() const {
 std::string pdf::getFilename() const {
     return filename;
 }
-
+std::string pdf::getuploaded_at() const{
+    return uploaded_at;
+}
 std::string pdf::getFilenameByPdfID(int pdfId) {
     // Initialize the SQL database connection
     QSqlDatabase db = QSqlDatabase::database();
@@ -73,7 +75,7 @@ void pdf::setData(const std::string& path) {
         return;
     }
 
-    // Read the entire file
+
     file.seekg(0, std::ios::end);
     size_t fileSize = file.tellg();
     file.seekg(0, std::ios::beg);

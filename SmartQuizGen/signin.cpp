@@ -3,6 +3,7 @@
 #include "user.h"
 
 #include "homepage.h"
+#include "mainwindow.h"
 #include <QMessageBox>
 
 bool CheckSignIn(QString username, QString password, User &user) {
@@ -33,6 +34,20 @@ SignIn::SignIn(QWidget *parent)
             QMessageBox::warning(this, "Input Error", "Username Or The Password  Are Incorrect");
             return;
         }
+    });
+    connect(ui->BackHomePage, &QPushButton::clicked, this, [=]() {
+
+        MainWindow* MainWindowPage = new MainWindow();
+        MainWindowPage->show();
+        this->hide();
+
+    });
+    bool isVisible = true;
+    connect(ui->SeeHidePassword, &QPushButton::clicked, this, [=]() mutable {
+        isVisible = !isVisible;
+        ui->PasswordEntry->setEchoMode(isVisible ? QLineEdit::Normal : QLineEdit::Password);
+        QIcon icon(isVisible ? ":/images/images/visible.png" : ":/images/images/hide.png");
+        ui->SeeHidePassword->setIcon(icon);
     });
 }
 

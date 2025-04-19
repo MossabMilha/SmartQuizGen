@@ -3,6 +3,14 @@
 
 #include <QDialog>
 #include "user.h"
+#include "pdf.h"
+#include <QDebug>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QScrollArea>
+#include <QMessageBox>
+#include "homepagefunctions.h"
 
 namespace Ui {
 class ShowPdfs;
@@ -18,6 +26,11 @@ public:
 
 private:
     Ui::ShowPdfs *ui;
+
+    QVBoxLayout* layout = nullptr;
+    QWidget* container = nullptr;
+    QScrollArea* scrollArea = nullptr;
+    void loadPdfs(User* user); // helper method
     User* currentUser;
 
 };

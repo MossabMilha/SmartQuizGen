@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include "ui_signup.h"
+
 #include "signin.h"
 #include "mainwindow.h"
 

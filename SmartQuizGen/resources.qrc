@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/back.png</file>
+        <file>images/hide.png</file>
+        <file>images/visible.png</file>
+    </qresource>
+</RCC>
