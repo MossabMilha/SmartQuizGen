@@ -78,23 +78,42 @@ QuizExamen::QuizExamen(User *user, Quiz *quiz, QWidget *parent)
         User user = User::getUserById(userId);
         saveCurrentAnswer();
         int correctAnswers = 0;
-        for (size_t i = 0; i < questions.size(); i++) {
-            qDebug()<<"=="<<questions[i].getOptions()[userAnswers[i]];
-            qDebug()<<"="<<questions[i].getCorrectAnswer();
+        QString wrongAnswersText;
 
+        for (size_t i = 0; i < questions.size(); i++) {
             if (questions[i].getOptions()[userAnswers[i]] == questions[i].getCorrectAnswer()) {
                 correctAnswers++;
+            } else {
+
+                wrongAnswersText += QString("Question %1: %2\n\tYour answer: %3\n\tCorrect answer: %4\n\n")
+                                        .arg(i + 1)
+                                        .arg(questions[i].getText())
+                                        .arg(questions[i].getOptions()[userAnswers[i]])
+                                        .arg(questions[i].getCorrectAnswer());
             }
         }
+
 
         HomePage* homePage = new HomePage(&user);
         homePage->show();
         this->hide();
 
-        QMessageBox::information(homePage, "Quiz Result",
-                                 QString("You got %1 out of %2 questions correct!")
-                                     .arg(correctAnswers)
-                                     .arg(questions.size()));
+
+        if (!wrongAnswersText.isEmpty()) {
+
+            QMessageBox::information(homePage, "Quiz Result",
+                                     QString("You got %1 out of %2 questions correct!\n\n"
+                                             "Incorrect answers:\n%3")
+                                         .arg(correctAnswers)
+                                         .arg(questions.size())
+                                         .arg(wrongAnswersText));
+        } else {
+
+            QMessageBox::information(homePage, "Quiz Result",
+                                     QString("You got %1 out of %2 questions correct!")
+                                         .arg(correctAnswers)
+                                         .arg(questions.size()));
+        }
     });
 }
 
