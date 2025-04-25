@@ -50,6 +50,7 @@ public:
 
     static bool isUsernameUsed(const QString& username);
     static bool isEmailUsed(const QString& email);
+    static bool ChangePassword(const QString& email,const QString& password);
 
 
     bool saveUserToDb();

@@ -29,12 +29,45 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>350</y>
+     <y>230</y>
      <width>401</width>
-     <height>151</height>
+     <height>165</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>20</number>
+    </property>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+       <widget class="QLabel" name="Question">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>What does the abbreviation &quot;OS&quot; stand for?</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Orientation::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>60</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
     <item alignment="Qt::AlignmentFlag::AlignLeft">
      <widget class="QRadioButton" name="Answer1">
       <property name="text">
@@ -79,31 +112,6 @@
      <widget class="QLabel" name="QuizTitle">
       <property name="text">
        <string>WElcome To Your Quiz</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>190</y>
-     <width>635</width>
-     <height>129</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter">
-     <widget class="QLabel" name="Question">
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>What does the abbreviation &quot;OS&quot; stand for?</string>
       </property>
      </widget>
     </item>

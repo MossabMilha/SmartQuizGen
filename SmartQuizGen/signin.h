@@ -2,6 +2,7 @@
 #define SIGNIN_H
 
 #include <QDialog>
+#include "forgetpassword.h"
 
 namespace Ui {
 class SignIn;

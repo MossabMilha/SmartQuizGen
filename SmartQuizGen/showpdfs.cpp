@@ -1,36 +1,48 @@
 #include "showpdfs.h"
 #include "ui_showpdfs.h"
 
-
 ShowPdfs::ShowPdfs(User* user, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ShowPdfs)
     , currentUser(user)
 {
+    int userId = currentUser->getId();
     ui->setupUi(this);
 
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    // Prepare the layout to hold the PDF widgets
+    layout = new QVBoxLayout();
 
-    scrollArea = new QScrollArea(this);
-    scrollArea->setWidgetResizable(true);
+    // Create a container widget to hold the layout
+    container = new QWidget(this);
+    container->setLayout(layout);
 
-    mainLayout->addWidget(scrollArea);
-    setLayout(mainLayout);
+    // Set the container as the widget of the scroll area defined in the .ui
+    ui->scrollArea->setWidget(container);
 
+    // Load the PDFs
     loadPdfs(currentUser);
+
+    // Handle back button
+    connect(ui->BackHomePage, &QPushButton::clicked, this, [=]() {
+        User user = User::getUserById(userId);
+        HomePage* Home = new HomePage(&user);
+        Home->show();
+        this->hide();
+    });
 }
+
 void ShowPdfs::loadPdfs(User* user)
 {
     int userId = user->getId();
     std::vector<pdf> userPdfs = pdf::getPdfsOfUser(userId);
 
-    if (container) {
-        delete container; // delete the previous container and its layout
-        container = nullptr;
+
+    QLayoutItem* item;
+    while ((item = layout->takeAt(0)) != nullptr) {
+        delete item->widget();
+        delete item;
     }
 
-    container = new QWidget(this);
-    layout = new QVBoxLayout(container);
 
     for (const auto& pdf : userPdfs) {
         QWidget* pdfWidget = new QWidget(this);
@@ -48,7 +60,7 @@ void ShowPdfs::loadPdfs(User* user)
             );
         actionButton->setFixedWidth(150);
 
-        connect(actionButton, &QPushButton::clicked, this, [this, pdf,userId]() {
+        connect(actionButton, &QPushButton::clicked, this, [this, pdf, userId]() {
             QString output = homePageFunctions::GenerateQuiz(pdf.getId());
             if (output == "Quiz generation completed successfully.") {
                 QMessageBox::information(this, "Success", output);
@@ -67,12 +79,10 @@ void ShowPdfs::loadPdfs(User* user)
         layout->addWidget(pdfWidget);
     }
 
-    container->setLayout(layout);
-    scrollArea->setWidget(container);
+    layout->addStretch();
 }
 
 ShowPdfs::~ShowPdfs()
 {
-
     delete ui;
 }

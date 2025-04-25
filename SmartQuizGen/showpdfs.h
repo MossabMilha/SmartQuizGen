@@ -11,6 +11,7 @@
 #include <QScrollArea>
 #include <QMessageBox>
 #include "homepagefunctions.h"
+#include "homepage.h"
 
 namespace Ui {
 class ShowPdfs;

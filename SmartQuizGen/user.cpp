@@ -164,3 +164,30 @@ bool User::saveUserToDb() {
 
     return true;
 }
+bool User::ChangePassword(const QString& email,const QString& password){
+    QSqlDatabase db = QSqlDatabase::database();
+
+    if (!db.isOpen()) {
+        qWarning() << "Database is not open!";
+        return false;
+    }
+
+
+    QSqlQuery query;
+    QString encryptedPassword = Encryption::encrypt(password);
+    query.prepare("UPDATE users SET Password = :password, updated_at = CURRENT_TIMESTAMP WHERE email = :email");
+    query.bindValue(":password", encryptedPassword);
+    query.bindValue(":email", email);
+
+    if (!query.exec()) {
+        qWarning() << "Password update failed:" << query.lastError().text();
+        return false;
+    }
+
+    if (query.numRowsAffected() == 0) {
+        qWarning() << "No user found with the given email.";
+        return false;
+    }
+
+    return true;
+}

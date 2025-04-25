@@ -49,6 +49,12 @@ SignIn::SignIn(QWidget *parent)
         QIcon icon(isVisible ? ":/images/images/visible.png" : ":/images/images/hide.png");
         ui->SeeHidePassword->setIcon(icon);
     });
+
+    connect(ui->ForgetPasswordButton, &QPushButton::clicked, this, [=]()  {
+        ForgetPassword* ForgetPasswordPage = new ForgetPassword();
+        ForgetPasswordPage->show();
+        this->hide();
+    });
 }
 
 SignIn::~SignIn()

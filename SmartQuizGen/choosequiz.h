@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "user.h"
+#include "homepage.h"
 
 namespace Ui {
 class ChooseQuiz;
