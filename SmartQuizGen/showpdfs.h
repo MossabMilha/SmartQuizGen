@@ -2,16 +2,15 @@
 #define SHOWPDFS_H
 
 #include <QDialog>
-#include "user.h"
-#include "pdf.h"
-#include <QDebug>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
-#include <QMessageBox>
+#include <QApplication>
+#include "user.h"
+#include "pdf.h"
 #include "homepagefunctions.h"
-#include "homepage.h"
 
 namespace Ui {
 class ShowPdfs;
@@ -27,13 +26,11 @@ public:
 
 private:
     Ui::ShowPdfs *ui;
-
-    QVBoxLayout* layout = nullptr;
-    QWidget* container = nullptr;
-    QScrollArea* scrollArea = nullptr;
-    void loadPdfs(User* user); // helper method
     User* currentUser;
+    QVBoxLayout* layout;
+    QWidget* container;
 
+    void loadPdfs(User* user);
 };
 
 #endif // SHOWPDFS_H

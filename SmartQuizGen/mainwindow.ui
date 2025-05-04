@@ -32,7 +32,23 @@
    <enum>Qt::LayoutDirection::LeftToRight</enum>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QMainWindow {
+  background-color: #e6f2ff;
+}
+QLabel {
+  color: #0e3d61;
+}
+QPushButton {
+  background-color: #3b769e;
+  color: white;
+  border-radius: 20px;
+  padding: 10px 30px;
+  font-weight: bold;
+  font-size: 14px;
+}
+QPushButton:hover {
+  background-color: #0e3d61;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label_2">
@@ -44,8 +60,11 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: #3b769e;</string>
+    </property>
     <property name="text">
-     <string>Where You PDF Become Quiz</string>
+     <string>Where Your PDF Becomes a Quiz</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -62,9 +81,12 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>16</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #0e3d61;</string>
     </property>
     <property name="text">
      <string>Welcome To SmartQuizGen</string>
@@ -79,30 +101,105 @@
       <x>0</x>
       <y>340</y>
       <width>401</width>
-      <height>80</height>
+      <height>120</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>15</number>
+     </property>
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
       <widget class="QPushButton" name="SignInButton">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>45</height>
+        </size>
+       </property>
        <property name="styleSheet">
-        <string notr="true">#signInButton {
-    border-radius: 40px;
-}</string>
+        <string notr="true">background-color: #0e3d61;</string>
        </property>
        <property name="text">
-        <string>SignIn</string>
+        <string>Sign In</string>
        </property>
       </widget>
      </item>
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
       <widget class="QPushButton" name="SignUpButton">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>45</height>
+        </size>
+       </property>
        <property name="text">
-        <string>SignUp</string>
+        <string>Sign Up</string>
        </property>
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="logoLabel">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>30</y>
+      <width>100</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #3b769e;
+border-radius: 50px;</string>
+    </property>
+    <property name="text">
+     <string>SQG</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QFrame" name="decorativeFrame">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>220</y>
+      <width>300</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;
+border-radius: 15px;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="featureLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>15</y>
+       <width>260</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #3b769e;</string>
+     </property>
+     <property name="text">
+      <string>Transform your learning materials into interactive quizzes with AI-powered technology</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

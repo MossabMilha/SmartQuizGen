@@ -4,6 +4,7 @@
 
 #include "homepage.h"
 #include "mainwindow.h"
+#include "signup.h"
 #include <QMessageBox>
 
 bool CheckSignIn(QString username, QString password, User &user) {
@@ -55,6 +56,12 @@ SignIn::SignIn(QWidget *parent)
         ForgetPasswordPage->show();
         this->hide();
     });
+    connect(ui->CreateAccountButton, &QPushButton::clicked, this, [=]()  {
+        SignUp* SignUpPage = new SignUp();
+        SignUpPage->show();
+        this->hide();
+    });
+
 }
 
 SignIn::~SignIn()
